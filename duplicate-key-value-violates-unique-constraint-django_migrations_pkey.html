@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>duplicate key value violates unique constraint &quot;django_migrations_pkey&quot; - Django Notes </title>
+        <meta name="description" content="Полный текст ошибки: psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "django_migrations_pkey"Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос: SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))Это можно сделать например через PgAdmin либо через командную строку: from django.db import connectionsquery = "SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))"cursor&hellip;" />
+        <meta name="robots" content="index, follow" /> 
+        <meta name="generator" content="Publii Open-Source CMS for Static Site" />
+        <link rel="canonical" href="https://antonloktionov.github.io/django-notes/duplicate-key-value-violates-unique-constraint-django_migrations_pkey.html">
+        
+        <link rel="alternate" type="application/atom+xml" href="https://antonloktionov.github.io/django-notes/feed.xml" />
+<link rel="alternate" type="application/json" href="https://antonloktionov.github.io/django-notes/feed.json" />
+
+        <meta property="og:title" content="duplicate key value violates unique constraint 'django_migrations_pkey'" /><meta property="og:site_name" content="Django Notes" /><meta property="og:description" content="Полный текст ошибки: psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint 'django_migrations_pkey'Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос: SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))Это можно сделать например через PgAdmin либо через командную строку: from django.db import connectionsquery = 'SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))'cursor&hellip;" /><meta property="og:url" content="https://antonloktionov.github.io/django-notes/duplicate-key-value-violates-unique-constraint-django_migrations_pkey.html" /><meta property="og:type" content="article" />
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+        <style>h1,h2,h3,h4,h5,h6,.btn,[type=button],[type=submit],button,.navbar .navbar__menu li,.navbar_mobile_sidebar .navbar__menu li,.feed__author,.post__tag,.post__share>a span,.post__nav-link>span,.footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}body,h1,.h1,blockquote,.search__input,.author__name,.author__info>p,.feed__item h2,.post__nav-link{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"}</style>
+        <link rel="stylesheet" href="https://antonloktionov.github.io/django-notes/assets/css/style.css?v=719398fac691a17e34cac67ea727682d">
+        <script type="application/ld+json">{"@context":"http://schema.org","@type":"Article","mainEntityOfPage":{"@type":"WebPage","@id":"https://antonloktionov.github.io/django-notes/duplicate-key-value-violates-unique-constraint-django_migrations_pkey.html"},"headline":"duplicate key value violates unique constraint \"django_migrations_pkey\"","datePublished":"2020-04-07T18:20","dateModified":"2020-04-07T18:20","description":"Полный текст ошибки: psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint \"django_migrations_pkey\"Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос: SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))Это можно сделать например через PgAdmin либо через командную строку: from django.db import connectionsquery = \"SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))\"cursor&hellip;","author":{"@type":"Person","name":"Anton Loktionov"},"publisher":{"@type":"Organization","name":"Anton Loktionov"}}</script>
+            <script src="https://antonloktionov.github.io/django-notes/assets/js/ls.parent-fit.min.js?v=f8467455ea5c88e3e51a4f212d2632bd"></script>
+            <script async src="https://antonloktionov.github.io/django-notes/assets/js/lazysizes.min.js?v=6a69d476c93de2b78a72acb259abccea"></script>          
+        
+        
+		<link rel="stylesheet" href="https://antonloktionov.github.io/django-notes/assets/css/prism.css?v=6f9d7be67b3e9206918f06d1c9eb45c5">
+    </head>
+    <body>
+        <div class="site-container">
+   <header class="top" id="js-header">
+      <a class="logo" href="https://antonloktionov.github.io/django-notes/">
+            Django Notes
+      </a>
+            <nav class="navbar js-navbar">
+               <button
+                  class="navbar__toggle js-toggle"
+                  aria-label="Menu"
+                  aria-haspopup="true"
+                  aria-expanded="false">
+                  <span class="navbar__toggle-box">
+                     <span class="navbar__toggle-inner">Menu</span>
+                  </span>
+               </button>
+             <ul class="navbar__menu">
+                      <li>
+                        <a
+                           href="https://antonloktionov.github.io/django-notes/"
+                              target="_self"
+         >
+                           Главная
+                       </a>
+         
+                  </li>
+                      <li>
+                        <a
+                           href="https://antonloktionov.github.io/django-notes/ogromnyy-spisok-django-querysets-and-sql.html"
+                              target="_self"
+         >
+                           Models
+                       </a>
+         
+                  </li>
+             </ul>
+            </nav>
+         <div class="search">
+            <div class="search__overlay js-search-overlay">
+               <div class="search__overlay-inner">
+                  <form action="https://antonloktionov.github.io/django-notes/search.html" class="search__form">
+                     <input
+                        class="search__input js-search-input"
+                        type="search"
+                        name="q"
+                        placeholder="search..."
+                        autofocus="autofocus"/>
+                  </form>
+                  <button class="search__close js-search-close" aria-label="Close">
+                     Close
+                  </button>
+               </div>
+            </div>
+            <button class="search__btn js-search-btn" aria-label="Search">
+               <svg role="presentation" focusable="false">
+                  <use xlink:href="https://antonloktionov.github.io/django-notes/assets/svg/svg-map.svg#search"/>
+               </svg>
+            </button>
+         </div>
+   </header>
+<main>
+      <article class="post">
+         <div class="hero">
+            <header class="hero__content">
+               <div class="wrapper">
+                     <div class="post__meta">
+                        <time datetime="2020-04-07T18:20">
+                              апрель 7, 2020
+                        </time>
+                     </div>
+                  <h1>
+                     duplicate key value violates unique constraint &quot;django_migrations_pkey&quot;
+                  </h1>
+                     <div class="post__meta post__meta--author">
+                           <a href="https://antonloktionov.github.io/django-notes/authors/anton-loktionov/" class="feed__author invert">Anton Loktionov</a>
+                     </div>
+               </div>
+            </header>
+         </div>
+          
+         <div class="wrapper post__entry">
+               Полный текст ошибки: 
+<pre class="build-stream-line">psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint "django_migrations_pkey"</pre>
+<p>Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос:</p>
+<pre class="lang-py prettyprint prettyprinted"><code class="language-python"><span class="str">SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))</span></code></pre>
+<p>Это можно сделать например через PgAdmin либо через командную строку:</p>
+<pre class="lang-py prettyprint prettyprinted"><code class="language-python"><span class="kwd">from</span><span class="pln"> django</span><span class="pun">.</span><span class="pln">db </span><span class="kwd">import</span><span class="pln"> connections
+
+query </span><span class="pun">=</span> <span class="str">"SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))"</span><span class="pln">
+cursor </span><span class="pun">=</span><span class="pln"> connections</span><span class="pun">[</span><span class="str">'default'</span><span class="pun">].</span><span class="pln">cursor</span><span class="pun">()</span><span class="pln">
+cursor</span><span class="pun">.</span><span class="pln">execute</span><span class="pun">(</span><span class="pln">query</span><span class="pun">)</span><span class="pln"> 
+row </span><span class="pun">=</span><span class="pln"> cursor</span><span class="pun">.</span><span class="pln">fetchone</span><span class="pun">()</span></code></pre>
+<p> </p>
+         </div>
+
+            <footer class="wrapper post__footer">
+
+
+
+                  <div class="post__share">
+                     
+                     
+                     
+                     
+                     
+                     
+                  </div>
+
+            </footer>
+      </article>
+
+            <nav class="post__nav">
+               <div class="post__nav-inner">
+                     <div class="post__nav-prev">
+                        <svg width="1.041em" height="0.416em" aria-hidden="true">
+                           <use xlink:href="https://antonloktionov.github.io/django-notes/assets/svg/svg-map.svg#arrow-prev"/>
+                        </svg>
+
+                        <a href="https://antonloktionov.github.io/django-notes/primeni-migracii-django-na-heroku.html" class="invert post__nav-link" rel="prev">
+                           <span>Previous</span>
+                           Применить миграции Django на Heroku
+                        </a>
+                     </div>
+                     <div class="post__nav-next">
+                        <a href="https://antonloktionov.github.io/django-notes/kastomnyy-queryset-dlya-django-modeli.html" class="invert post__nav-link" rel="next">
+                           <span>Next</span>
+                           Кастомный QuerySet для Django модели
+                        </a>
+                        <svg width="1.041em" height="0.416em" aria-hidden="true">
+                           <use xlink:href="https://antonloktionov.github.io/django-notes/assets/svg/svg-map.svg#arrow-next"/>
+                        </svg>
+                     </div>
+               </div>
+            </nav>
+
+
+
+
+</main>
+<footer class="footer">
+        <div class="footer__copyright">
+            Powered by <a href="https://getpublii.com" target="_blank" rel="nofollow noopener noreferrer">Publii Static CMS</a>
+        </div>
+       <button class="footer__bttop js-footer__bttop" aria-label="Back to top"> 
+           <svg>
+               <title>Back to top</title>
+               <use xlink:href="https://antonloktionov.github.io/django-notes/assets/svg/svg-map.svg#toparrow" />
+           </svg>
+       </button>   
+</footer>
+</div>
+
+<script>
+   window.publiiThemeMenuConfig = {    
+        mobileMenuMode: 'sidebar',
+        animationSpeed: 300,
+        submenuWidth: 'auto',
+        doubleClickTime: 500,
+        mobileMenuExpandableSubmenus: true, 
+        relatedContainerForOverlayMenuSelector: '.top',
+   };
+</script>
+<script defer src="https://antonloktionov.github.io/django-notes/assets/js/scripts.min.js?v=205f40927e4a45297a0b266e50ad78d5"></script>
+<script defer src="https://antonloktionov.github.io/django-notes/assets/js/prism.js?v=d7b38826d9220f28fd52daa1669eab08"></script>
+<script>
+      var lazyFeaturedImage=function lazyFeaturedImage(){var b=document.querySelectorAll(".hero__image-img");for(var a=0;a<b.length;a++){var c=b[a];c.addEventListener("lazyloaded",function(f){var d=f.target.parentNode;d.classList.add("hero__image--overlay")})}};lazyFeaturedImage();
+   </script>
+
+
+</body>
+
+</html>

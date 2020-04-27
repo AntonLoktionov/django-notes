@@ -1,0 +1,83 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "Django Notes",
+    "description": "",
+    "home_page_url": "https://antonloktionov.github.io/django-notes",
+    "feed_url": "https://antonloktionov.github.io/django-notes/feed.json",
+    "user_comment": "",
+    "author": {
+        "name": "Anton Loktionov"
+    },
+    "items": [
+        {
+            "id": "https://antonloktionov.github.io/django-notes/raznica-mezhdu-values-i-values_list-django.html",
+            "url": "https://antonloktionov.github.io/django-notes/raznica-mezhdu-values-i-values_list-django.html",
+            "title": "Разница между values и values_list Django",
+            "summary": "values() возвращает QuerySet, содержащий словари: &lt;QuerySet [{'comment_id': 1}, {'comment_id': 2}]&gt;values_list() возвращает QuerySet с кортежами: &lt;QuerySet [(1,), (2,)]&gt;При использовании в values_list() одного поля, можно использовать параметр flat=True, чтобы вернуть QuerySet со списком значений вместо кортежей. &lt;QuerySet [1, 2]&gt;",
+            "content_html": "<p>values() возвращает QuerySet, содержащий словари:</p>\n<pre><code class=\"language-python\">&lt;QuerySet [{'comment_id': 1}, {'comment_id': 2}]&gt;</code></pre>\n<p>values_list() возвращает QuerySet с кортежами:</p>\n<pre><code class=\"language-python\">&lt;QuerySet [(1,), (2,)]&gt;</code></pre>\n<p>При использовании в values_list() одного поля, можно использовать параметр flat=True, чтобы вернуть QuerySet со списком значений вместо кортежей.</p>\n<pre><code class=\"language-python\">&lt;QuerySet [1, 2]&gt;</code></pre>",
+            "author": {
+                "name": "Anton Loktionov"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-04-12T16:33:59+03:00",
+            "date_modified": "2020-04-12T16:45:44+03:00"
+        },
+        {
+            "id": "https://antonloktionov.github.io/django-notes/raznica-mezhdu-aggregate-i-annotate-django-orm.html",
+            "url": "https://antonloktionov.github.io/django-notes/raznica-mezhdu-aggregate-i-annotate-django-orm.html",
+            "title": "Разница между aggregate и annotate Django ORM",
+            "summary": "Разница между aggregate и annotate в том, что aggregate вычисляет функцию для всего набора данных и возвращает словарь (dict) с вычисленным значениемannotate вычисляет значения для каждой записи набора данных и возвращает QuerySet",
+            "content_html": "Разница между aggregate и annotate в том, что <br>\n<ul>\n<li>aggregate вычисляет функцию <strong>для всего</strong> набора данных и возвращает <strong>словарь (dict)</strong> с вычисленным значением</li>\n<li>annotate вычисляет значения <strong>для каждой записи</strong> набора данных и возвращает QuerySet</li>\n</ul>",
+            "author": {
+                "name": "Anton Loktionov"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-04-11T15:08:46+03:00",
+            "date_modified": "2020-04-11T15:08:46+03:00"
+        },
+        {
+            "id": "https://antonloktionov.github.io/django-notes/kastomnyy-queryset-dlya-django-modeli.html",
+            "url": "https://antonloktionov.github.io/django-notes/kastomnyy-queryset-dlya-django-modeli.html",
+            "title": "Кастомный QuerySet для Django модели",
+            "summary": "class DocumentQuerySet(models.QuerySet): def pdfs(self): return self.filter(file_type='pdf') def smaller_than(self, size): return self.filter(size__lt=size)class Document(models.Model): name = models.CharField(max_length=30) size = models.PositiveIntegerField(default=0) file_type = models.CharField(max_length=10, blank=True) objects = models.Manager() # нужно, чтобы остался обычный менеджер custom_manager = DocumentQuerySet.as_manager()Кастомные QuerySet можно использовать совместно, например, так: Document.custom_manager.pdfs().smaller_than(400)В сети есть другой вариант с&hellip;",
+            "content_html": "<pre><code class=\"language-python\">class DocumentQuerySet(models.QuerySet):\n    def pdfs(self):\n        return self.filter(file_type='pdf')\n\n    def smaller_than(self, size):\n        return self.filter(size__lt=size)\n\nclass Document(models.Model):\n    name = models.CharField(max_length=30)\n    size = models.PositiveIntegerField(default=0)\n    file_type = models.CharField(max_length=10, blank=True)\n\n    objects = models.Manager() # нужно, чтобы остался обычный менеджер\n    custom_manager = DocumentQuerySet.as_manager()\n</code></pre>\n<p>Кастомные QuerySet  можно использовать совместно, например, так:</p>\n<pre><code class=\"language-python\">Document.custom_manager.pdfs().smaller_than(400)</code></pre>\n<p>В сети есть другой вариант с использованием models.Manager и потом models.QuerySet, но вышеуказанный вариант мне показался наиболее простым</p>\n<pre><code class=\"language-python\"> \nclass DocumentQuerySet(models.QuerySet):\n    def pdfs(self):\n        return self.filter(file_type='pdf')\n\n    def smaller_than(self, size):\n        return self.filter(size__lt=size)\n\n\nclass DocumentManager(models.Manager):\n    def get_queryset(self):\n        return DocumentQuerySet(self.model, using=self._db)  # Important!\n\n    def pdfs(self):\n        return self.get_queryset().pdfs()\n\n    def smaller_than(self, size):\n        return self.get_queryset().smaller_than(size)\n\n\nclass Document(models.Model):\n    name = models.CharField(max_length=30)\n    size = models.PositiveIntegerField(default=0)\n    file_type = models.CharField(max_length=10, blank=True)\n\n    objects = DocumentManager()  \n  \n</code></pre>",
+            "author": {
+                "name": "Anton Loktionov"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-04-07T18:21:47+03:00",
+            "date_modified": "2020-04-07T18:40:53+03:00"
+        },
+        {
+            "id": "https://antonloktionov.github.io/django-notes/duplicate-key-value-violates-unique-constraint-django_migrations_pkey.html",
+            "url": "https://antonloktionov.github.io/django-notes/duplicate-key-value-violates-unique-constraint-django_migrations_pkey.html",
+            "title": "duplicate key value violates unique constraint &quot;django_migrations_pkey&quot;",
+            "summary": "Полный текст ошибки: psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint \"django_migrations_pkey\"Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос: SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))Это можно сделать например через PgAdmin либо через командную строку: from django.db import connectionsquery = \"SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))\"cursor&hellip;",
+            "content_html": "Полный текст ошибки: \n<pre class=\"build-stream-line\">psycopg2.errors.UniqueViolation: duplicate key value violates unique constraint \"django_migrations_pkey\"</pre>\n<p>Чтобы обновить нумерацию в таблице миграций нужно выполнить SQL запрос:</p>\n<pre class=\"lang-py prettyprint prettyprinted\"><code class=\"language-python\"><span class=\"str\">SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))</span></code></pre>\n<p>Это можно сделать например через PgAdmin либо через командную строку:</p>\n<pre class=\"lang-py prettyprint prettyprinted\"><code class=\"language-python\"><span class=\"kwd\">from</span><span class=\"pln\"> django</span><span class=\"pun\">.</span><span class=\"pln\">db </span><span class=\"kwd\">import</span><span class=\"pln\"> connections\n\nquery </span><span class=\"pun\">=</span> <span class=\"str\">\"SELECT setval('django_migrations_id_seq', (SELECT MAX(id) FROM django_migrations))\"</span><span class=\"pln\">\ncursor </span><span class=\"pun\">=</span><span class=\"pln\"> connections</span><span class=\"pun\">[</span><span class=\"str\">'default'</span><span class=\"pun\">].</span><span class=\"pln\">cursor</span><span class=\"pun\">()</span><span class=\"pln\">\ncursor</span><span class=\"pun\">.</span><span class=\"pln\">execute</span><span class=\"pun\">(</span><span class=\"pln\">query</span><span class=\"pun\">)</span><span class=\"pln\"> \nrow </span><span class=\"pun\">=</span><span class=\"pln\"> cursor</span><span class=\"pun\">.</span><span class=\"pln\">fetchone</span><span class=\"pun\">()</span></code></pre>\n<p> </p>",
+            "author": {
+                "name": "Anton Loktionov"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-04-07T18:20:06+03:00",
+            "date_modified": "2020-04-07T18:20:40+03:00"
+        },
+        {
+            "id": "https://antonloktionov.github.io/django-notes/primeni-migracii-django-na-heroku.html",
+            "url": "https://antonloktionov.github.io/django-notes/primeni-migracii-django-na-heroku.html",
+            "title": "Применить миграции Django на Heroku",
+            "summary": "Сначала нужно создать миграции локально, добавить их в репозиторий, закоммитить файлы с новыми миграциями и запушить на heroku. Последовательность примерно такая: 1. (add/modify some someapp/models.py)2. python manage.py makemigrations someapp3. python manage.py migrate4. git add someapp/migrations/*.py (to add the new migration file)5. git commit -m \"added&hellip;",
+            "content_html": "<p>Сначала нужно создать миграции локально, добавить их в репозиторий, закоммитить файлы  с новыми миграциями и запушить на heroku.</p>\n<p>Последовательность примерно такая:</p>\n<pre class=\"language-python\"><code><span class=\"lit\">1.</span> <span class=\"pun\">(</span><span class=\"pln\">add</span><span class=\"pun\">/</span><span class=\"pln\">modify some someapp</span><span class=\"pun\">/</span><span class=\"pln\">models</span><span class=\"pun\">.</span><span class=\"pln\">py</span><span class=\"pun\">)</span>\n<span class=\"lit\">2.</span><span class=\"pln\"> python manage</span><span class=\"pun\">.</span><span class=\"pln\">py makemigrations someapp\n</span><span class=\"lit\">3.</span><span class=\"pln\"> python manage</span><span class=\"pun\">.</span><span class=\"pln\">py migrate\n</span><span class=\"lit\">4.</span><span class=\"pln\"> git add someapp</span><span class=\"pun\">/</span><span class=\"pln\">migrations</span><span class=\"pun\">/*.</span><span class=\"pln\">py </span><span class=\"pun\">(</span><span class=\"pln\">to add the new migration file</span><span class=\"pun\">)</span>\n<span class=\"lit\">5.</span><span class=\"pln\"> git commit </span><span class=\"pun\">-</span><span class=\"pln\">m </span><span class=\"str\">\"added migration for app someapp\"</span>\n<span class=\"lit\">6.</span><span class=\"pln\"> git push heroku\n</span><span class=\"lit\">7.</span><span class=\"pln\"> heroku run python manage</span><span class=\"pun\">.</span><span class=\"pln\">py migrate</span></code></pre>",
+            "author": {
+                "name": "Anton Loktionov"
+            },
+            "tags": [
+            ],
+            "date_published": "2020-04-07T16:28:34+03:00",
+            "date_modified": "2020-04-07T17:28:05+03:00"
+        }
+    ]
+}
